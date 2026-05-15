@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LecturesActivity extends AppCompatActivity {
 
-    Button btnPdf, btnUpload;
+    Button btnPdf, btnPdf2, btnPdf3, btnUpload;
 
     ActivityResultLauncher<String> filePickerLauncher;
 
@@ -23,6 +23,9 @@ public class LecturesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lectures);
 
         btnPdf = findViewById(R.id.btnPdf);
+        btnPdf2 = findViewById(R.id.btnPdf2);
+        btnPdf3 = findViewById(R.id.btnPdf3);
+
         btnUpload = findViewById(R.id.btnUpload);
 
         filePickerLauncher =
@@ -40,17 +43,23 @@ public class LecturesActivity extends AppCompatActivity {
                             }
                         });
 
-        btnPdf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        View.OnClickListener pdfListener =
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                Intent browserIntent =
-                        new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("https://www.aub.edu.lb"));
+                        Intent browserIntent =
+                                new Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("https://www.aub.edu.lb"));
 
-                startActivity(browserIntent);
-            }
-        });
+                        startActivity(browserIntent);
+                    }
+                };
+
+        btnPdf.setOnClickListener(pdfListener);
+        btnPdf2.setOnClickListener(pdfListener);
+        btnPdf3.setOnClickListener(pdfListener);
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
