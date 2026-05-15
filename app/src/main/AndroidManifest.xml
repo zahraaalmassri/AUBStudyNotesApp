@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AUBStudyNotesApp">
         <activity
+            android:name=".LecturesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CoursesActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
