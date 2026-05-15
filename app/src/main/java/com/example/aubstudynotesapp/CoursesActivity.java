@@ -37,7 +37,7 @@ public class CoursesActivity extends AppCompatActivity {
                 "Spring 2026"));
 
         courseList.add(new Course(
-                "CMPS 285 - Artificial Intelligence",
+                "CMPS 288 - Game Programming",
                 "Spring 2026"));
 
         courseList.add(new Course(
