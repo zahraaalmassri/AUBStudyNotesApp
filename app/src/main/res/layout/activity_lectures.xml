@@ -1,72 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F8F4F1">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp"
-        android:background="#F5F7FA">
+        android:padding="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lectures"
-            android:textSize="30sp"
+            android:text="Course Lectures"
+            android:textSize="34sp"
             android:textStyle="bold"
-            android:textColor="#0A2A66"
-            android:layout_marginBottom="20dp"/>
+            android:textColor="#7A0019"
+            android:layout_marginBottom="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lecture 1 - Introduction"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"/>
-
-        <Button
-            android:id="@+id/btnPdf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Open Lecture PDF"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lecture 2 - Course Concepts"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"/>
-
-        <Button
-            android:id="@+id/btnPdf2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Open Lecture PDF"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lecture 3 - Advanced Topics"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"/>
-
-        <Button
-            android:id="@+id/btnPdf3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Open Lecture PDF"/>
+            android:text="Upload and access lecture materials"
+            android:textSize="15sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="25dp"/>
 
         <Button
             android:id="@+id/btnUpload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Upload Notes"
-            android:layout_marginTop="30dp"/>
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#7A0019"
+            android:layout_marginBottom="25dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:elevation="3dp"
+            android:padding="18dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lecture 1 - Introduction"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#7A0019"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CMPS297_Intro.pdf"
+                android:textSize="14sp"
+                android:textColor="#777777"
+                android:layout_marginTop="4dp"/>
+
+            <Button
+                android:id="@+id/btnPdf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Open PDF"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#7A0019"
+                android:layout_marginTop="12dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:elevation="3dp"
+            android:padding="18dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lecture 2 - Course Concepts"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#7A0019"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CMPS297_Concepts.pdf"
+                android:textSize="14sp"
+                android:textColor="#777777"
+                android:layout_marginTop="4dp"/>
+
+            <Button
+                android:id="@+id/btnPdf2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Open PDF"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#7A0019"
+                android:layout_marginTop="12dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:elevation="3dp"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lecture 3 - Advanced Topics"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#7A0019"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CMPS297_Advanced.pdf"
+                android:textSize="14sp"
+                android:textColor="#777777"
+                android:layout_marginTop="4dp"/>
+
+            <Button
+                android:id="@+id/btnPdf3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Open PDF"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#7A0019"
+                android:layout_marginTop="12dp"/>
+        </LinearLayout>
 
     </LinearLayout>
 
