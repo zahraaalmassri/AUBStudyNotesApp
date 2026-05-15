@@ -7,11 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LecturesActivity extends AppCompatActivity {
 
     Button btnPdf, btnUpload;
+
+    ActivityResultLauncher<String> filePickerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +24,21 @@ public class LecturesActivity extends AppCompatActivity {
 
         btnPdf = findViewById(R.id.btnPdf);
         btnUpload = findViewById(R.id.btnUpload);
+
+        filePickerLauncher =
+                registerForActivityResult(
+                        new ActivityResultContracts.GetContent(),
+                        uri -> {
+
+                            if (uri != null) {
+
+                                Toast.makeText(
+                                        LecturesActivity.this,
+                                        "File Uploaded Successfully",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            }
+                        });
 
         btnPdf.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,11 +56,7 @@ public class LecturesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(
-                        LecturesActivity.this,
-                        "Upload feature coming soon",
-                        Toast.LENGTH_SHORT
-                ).show();
+                filePickerLauncher.launch("*/*");
             }
         });
     }
