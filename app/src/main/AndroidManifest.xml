@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AUBStudyNotesApp">
         <activity
+            android:name=".PdfViewerActivity"
+            android:exported="false" />
+        <activity
             android:name=".LecturesActivity"
             android:exported="false" />
         <activity
