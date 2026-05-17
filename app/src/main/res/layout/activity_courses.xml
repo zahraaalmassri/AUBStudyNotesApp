@@ -7,9 +7,10 @@
     android:background="#F8F4F1">
 
     <TextView
+        android:id="@+id/txtWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome, Zahraa"
+        android:text="Welcome"
         android:textSize="18sp"
         android:textColor="#666666"/>
 
@@ -27,8 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Search courses"
-        android:padding="14dp"
-        android:backgroundTint="#7A0019"
         android:layout_marginBottom="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -42,9 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Logout"
-        android:textStyle="bold"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#7A0019"
-        android:layout_marginTop="12dp"/>
+        android:backgroundTint="#7A0019"/>
 
 </LinearLayout>

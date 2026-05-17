@@ -52,23 +52,42 @@ public class LecturesActivity extends AppCompatActivity {
 
             builder.setTitle("Add Lecture");
 
-            final EditText input = new EditText(
-                    LecturesActivity.this);
+            LinearLayout dialogLayout =
+                    new LinearLayout(this);
 
-            input.setHint("Lecture Title");
+            dialogLayout.setOrientation(
+                    LinearLayout.VERTICAL);
 
-            input.setInputType(
-                    InputType.TYPE_CLASS_TEXT);
+            EditText lectureInput =
+                    new EditText(this);
 
-            builder.setView(input);
+            lectureInput.setHint("Lecture Title");
+
+            EditText notesInput =
+                    new EditText(this);
+
+            notesInput.setHint("Lecture Notes");
+
+            notesInput.setMinLines(3);
+
+            dialogLayout.addView(lectureInput);
+
+            dialogLayout.addView(notesInput);
+
+            builder.setView(dialogLayout);
 
             builder.setPositiveButton("Add",
                     (dialog, which) -> {
 
-                        String lectureName =
-                                input.getText().toString();
+                        String lectureTitle =
+                                lectureInput.getText().toString();
 
-                        addLectureCard(lectureName);
+                        String lectureNotes =
+                                notesInput.getText().toString();
+
+                        addLectureCard(
+                                lectureTitle,
+                                lectureNotes);
                     });
 
             builder.setNegativeButton("Cancel",
@@ -78,7 +97,9 @@ public class LecturesActivity extends AppCompatActivity {
         });
     }
 
-    private void addLectureCard(String lectureTitle) {
+    private void addLectureCard(
+            String lectureTitle,
+            String lectureNotes) {
 
         LinearLayout card =
                 new LinearLayout(this);
@@ -109,6 +130,14 @@ public class LecturesActivity extends AppCompatActivity {
 
         title.setTextColor(0xFF7A0019);
 
+        TextView notes = new TextView(this);
+
+        notes.setText(lectureNotes);
+
+        notes.setTextSize(15);
+
+        notes.setPadding(0,15,0,15);
+
         Button openBtn = new Button(this);
 
         openBtn.setText("Open PDF");
@@ -124,6 +153,8 @@ public class LecturesActivity extends AppCompatActivity {
         });
 
         card.addView(title);
+
+        card.addView(notes);
 
         card.addView(openBtn);
 

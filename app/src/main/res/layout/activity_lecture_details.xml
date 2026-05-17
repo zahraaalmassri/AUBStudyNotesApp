@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F4F1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/txtLectureTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lecture"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#7A0019"/>
+
+        <Button
+            android:id="@+id/btnUploadNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload Notes"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#7A0019"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/txtUploadStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="14sp"
+            android:textColor="#555555"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/btnViewPdf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Lecture PDF"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#C9A66B"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AI Lecture Summary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#7A0019"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:id="@+id/txtSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload a lecture file to generate a summary."
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+</ScrollView>

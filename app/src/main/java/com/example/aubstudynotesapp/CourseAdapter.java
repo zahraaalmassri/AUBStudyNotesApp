@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
@@ -22,28 +20,22 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     @NonNull
     @Override
     public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.course_item, parent, false);
-
         return new CourseViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
+        Course course = courses.get(position);
+        holder.txtCourseName.setText(course.getName());
+        holder.txtSemester.setText(course.getSemester());
 
-        holder.txtCourseName.setText(courses.get(position).getName());
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent =
-                        new Intent(v.getContext(),
-                                LecturesActivity.class);
-
-                v.getContext().startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), LecturesActivity.class);
+            intent.putExtra("courseName", course.getName()); // ✅ FIXED
+            intent.putExtra("semester", course.getSemester()); // ✅ FIXED
+            holder.itemView.getContext().startActivity(intent);
         });
     }
 
@@ -53,14 +45,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     }
 
     public static class CourseViewHolder extends RecyclerView.ViewHolder {
-
-        TextView txtCourseName;
+        TextView txtCourseName, txtSemester;
 
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            txtCourseName =
-                    itemView.findViewById(R.id.txtCourseName);
+            txtCourseName = itemView.findViewById(R.id.txtCourseName);
+            txtSemester = itemView.findViewById(R.id.txtSemester);
         }
     }
 }
