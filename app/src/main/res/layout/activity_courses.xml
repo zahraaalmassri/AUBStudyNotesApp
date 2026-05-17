@@ -28,7 +28,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Search courses"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="12dp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCourses"
@@ -37,11 +44,21 @@
         android:layout_weight="1"/>
 
     <Button
+        android:id="@+id/btnAddCourse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Course"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#C9A66B"
+        android:layout_marginTop="8dp"/>
+
+    <Button
         android:id="@+id/btnLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Logout"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#7A0019"/>
+        android:backgroundTint="#7A0019"
+        android:layout_marginTop="8dp"/>
 
 </LinearLayout>
