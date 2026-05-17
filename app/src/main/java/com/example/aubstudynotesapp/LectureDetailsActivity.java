@@ -1,23 +1,29 @@
 package com.example.aubstudynotesapp;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LectureDetailsActivity extends AppCompatActivity {
 
     Button btnUploadNotes, btnViewPdf;
+
     TextView txtLectureTitle, txtUploadStatus;
-    ActivityResultLauncher<String> filePickerLauncher;
+
+    ActivityResultLauncher<String[]> filePickerLauncher;
+
     FirebaseFirestore db;
+
     String uploadedFileUri = null;
+
     String courseName, lectureTitle, docId, userEmail;
 
     @Override
@@ -26,54 +32,87 @@ public class LectureDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lecture_details);
 
         btnUploadNotes = findViewById(R.id.btnUploadNotes);
+
         btnViewPdf = findViewById(R.id.btnViewPdf);
+
         txtLectureTitle = findViewById(R.id.txtLectureTitle);
+
         txtUploadStatus = findViewById(R.id.txtUploadStatus);
 
-        // ✅ Get all extras
         lectureTitle = getIntent().getStringExtra("lectureTitle");
+
         courseName = getIntent().getStringExtra("courseName");
+
         docId = getIntent().getStringExtra("docId");
+
         userEmail = getIntent().getStringExtra("userEmail");
 
         txtLectureTitle.setText(lectureTitle);
 
         db = FirebaseFirestore.getInstance();
 
-        // ✅ Load saved file URI from Firestore
         loadExistingFile();
 
-        filePickerLauncher = registerForActivityResult(
-                new ActivityResultContracts.GetContent(),
-                uri -> {
-                    if (uri != null) {
-                        // ✅ Take persistent permission so URI survives restarts
-                        getContentResolver().takePersistableUriPermission(
-                                uri,
-                                Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        );
-                        uploadedFileUri = uri.toString();
-                        saveUriToFirestore(uploadedFileUri);
-                        txtUploadStatus.setText("✅ File selected successfully!");
-                        btnViewPdf.setEnabled(true);
-                    }
-                });
+        filePickerLauncher =
+                registerForActivityResult(
+                        new ActivityResultContracts.OpenDocument(),
+                        uri -> {
 
-        btnUploadNotes.setOnClickListener(v -> filePickerLauncher.launch("*/*"));
+                            if (uri != null) {
+
+                                getContentResolver()
+                                        .takePersistableUriPermission(
+                                                uri,
+                                                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                        );
+
+                                uploadedFileUri = uri.toString();
+
+                                saveUriToFirestore(uploadedFileUri);
+
+                                txtUploadStatus.setText(
+                                        "✅ File selected successfully!");
+
+                                btnViewPdf.setEnabled(true);
+                            }
+                        });
+
+        btnUploadNotes.setOnClickListener(v ->
+
+                filePickerLauncher.launch(
+                        new String[]{"application/pdf"}));
 
         btnViewPdf.setOnClickListener(v -> {
+
             if (uploadedFileUri != null) {
-                Intent intent = new Intent(LectureDetailsActivity.this, PdfViewerActivity.class);
-                intent.putExtra("fileUri", uploadedFileUri);
+
+                Intent intent =
+                        new Intent(
+                                LectureDetailsActivity.this,
+                                PdfViewerActivity.class);
+
+                intent.putExtra(
+                        "fileUri",
+                        uploadedFileUri);
+
                 startActivity(intent);
+
             } else {
-                Toast.makeText(this, "No file selected yet", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(
+                        this,
+                        "No file selected yet",
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
     }
 
     private void loadExistingFile() {
-        if (userEmail == null || courseName == null || docId == null) return;
+
+        if (userEmail == null ||
+                courseName == null ||
+                docId == null) return;
 
         db.collection("users")
                 .document(userEmail)
@@ -83,19 +122,31 @@ public class LectureDetailsActivity extends AppCompatActivity {
                 .document(docId)
                 .get()
                 .addOnSuccessListener(doc -> {
-                    String uri = doc.getString("fileUri");
+
+                    String uri =
+                            doc.getString("fileUri");
+
                     if (uri != null && !uri.isEmpty()) {
+
                         uploadedFileUri = uri;
-                        txtUploadStatus.setText("✅ File already selected");
+
+                        txtUploadStatus.setText(
+                                "✅ File already selected");
+
                         btnViewPdf.setEnabled(true);
+
                     } else {
-                        txtUploadStatus.setText("No file selected yet");
+
+                        txtUploadStatus.setText(
+                                "No file selected yet");
+
                         btnViewPdf.setEnabled(false);
                     }
                 });
     }
 
     private void saveUriToFirestore(String uri) {
+
         db.collection("users")
                 .document(userEmail)
                 .collection("courses")
@@ -104,7 +155,11 @@ public class LectureDetailsActivity extends AppCompatActivity {
                 .document(docId)
                 .update("fileUri", uri)
                 .addOnFailureListener(e ->
-                        Toast.makeText(this, "Could not save file reference", Toast.LENGTH_SHORT).show()
-                );
+
+                        Toast.makeText(
+                                this,
+                                "Could not save file reference",
+                                Toast.LENGTH_SHORT
+                        ).show());
     }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "184668683361",
+    "project_id": "aubstudynotesapp-e8a32",
+    "storage_bucket": "aubstudynotesapp-e8a32.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184668683361:android:adcc0199ed858cdba3be20",
+        "android_client_info": {
+          "package_name": "com.example.aubstudynotesapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDApmqid1EmHuuVV2OLKBWMf2uE0GwLJz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

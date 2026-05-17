@@ -139,15 +139,20 @@ public class CoursesActivity extends AppCompatActivity {
     }
 
     private void saveCourseToFirestore(String name, String semester) {
+
         Map<String, Object> course = new HashMap<>();
+
         course.put("name", name);
+
         course.put("semester", semester);
+
         course.put("timestamp", System.currentTimeMillis());
 
         db.collection("users")
                 .document(userEmail)
                 .collection("courses")
-                .add(course)
+                .document(name)
+                .set(course)
                 .addOnSuccessListener(documentReference -> loadCourses());
     }
 
