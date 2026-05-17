@@ -1,9 +1,11 @@
 package com.example.aubstudynotesapp;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PdfViewerActivity extends AppCompatActivity {
@@ -21,15 +23,16 @@ public class PdfViewerActivity extends AppCompatActivity {
         settings.setJavaScriptEnabled(true);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
 
         webView.setWebViewClient(new WebViewClient());
 
-        String fileUrl = getIntent().getStringExtra("fileUrl");
+        String fileUri = getIntent().getStringExtra("fileUri");
 
-        if (fileUrl != null) {
-            // ✅ FIXED - Google Docs viewer renders PDF/PPT from any public URL
-            String googleDocsUrl = "https://docs.google.com/viewer?url=" + fileUrl + "&embedded=true";
-            webView.loadUrl(googleDocsUrl);
+        if (fileUri != null) {
+            // ✅ Load local file directly in WebView
+            webView.loadUrl(fileUri);
         }
     }
 }

@@ -9,16 +9,16 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LectureDetailsActivity extends AppCompatActivity {
 
     Button btnUploadNotes, btnViewPdf;
     TextView txtLectureTitle, txtUploadStatus;
     ActivityResultLauncher<String> filePickerLauncher;
-    StorageReference storageRef;
-    String uploadedFileUrl = null;
+    FirebaseFirestore db;
+    String uploadedFileUri = null;
+    String courseName, lectureTitle, docId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,55 +30,76 @@ public class LectureDetailsActivity extends AppCompatActivity {
         txtLectureTitle = findViewById(R.id.txtLectureTitle);
         txtUploadStatus = findViewById(R.id.txtUploadStatus);
 
-        String lectureTitle = getIntent().getStringExtra("lectureTitle");
+        lectureTitle = getIntent().getStringExtra("lectureTitle");
+        courseName = getIntent().getStringExtra("courseName");
+        docId = getIntent().getStringExtra("docId");
+
         txtLectureTitle.setText(lectureTitle);
 
-        storageRef = FirebaseStorage.getInstance().getReference();
+        db = FirebaseFirestore.getInstance();
 
-        // ✅ FIXED - actually uploads the file and stores the URL
+        // ✅ Load saved URI from Firestore
+        loadExistingFile();
+
+        // ✅ File picker — saves URI locally
         filePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
-                        uploadFile(uri, lectureTitle);
+                        // Take persistent permission so URI survives app restarts
+                        getContentResolver().takePersistableUriPermission(
+                                uri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        );
+                        uploadedFileUri = uri.toString();
+                        saveUriToFirestore(uploadedFileUri);
+                        txtUploadStatus.setText("✅ File selected successfully!");
+                        btnViewPdf.setEnabled(true);
                     }
                 });
 
         btnUploadNotes.setOnClickListener(v -> filePickerLauncher.launch("*/*"));
 
         btnViewPdf.setOnClickListener(v -> {
-            if (uploadedFileUrl != null) {
+            if (uploadedFileUri != null) {
                 Intent intent = new Intent(LectureDetailsActivity.this, PdfViewerActivity.class);
-                intent.putExtra("fileUrl", uploadedFileUrl); // ✅ FIXED - passes URL
+                intent.putExtra("fileUri", uploadedFileUri);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "Please upload a file first", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No file selected yet", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void uploadFile(Uri uri, String lectureTitle) {
-        txtUploadStatus.setText("Uploading...");
-        btnUploadNotes.setEnabled(false);
+    private void loadExistingFile() {
+        if (courseName == null || docId == null) return;
 
-        String fileName = "lectures/" + lectureTitle + "_" + System.currentTimeMillis();
-        StorageReference fileRef = storageRef.child(fileName);
-
-        fileRef.putFile(uri)
-                .addOnSuccessListener(taskSnapshot ->
-                        fileRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
-                            uploadedFileUrl = downloadUri.toString();
-                            txtUploadStatus.setText("✅ Uploaded successfully!");
-                            btnUploadNotes.setEnabled(true);
-                            Toast.makeText(this, "Upload complete!", Toast.LENGTH_SHORT).show();
-                        })
-                )
-                .addOnFailureListener(e -> {
-                    txtUploadStatus.setText("❌ Upload failed");
-                    btnUploadNotes.setEnabled(true);
-                    Toast.makeText(this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        db.collection("users")
+                .document(courseName)
+                .collection("lectures")
+                .document(docId)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    String uri = doc.getString("fileUri");
+                    if (uri != null && !uri.isEmpty()) {
+                        uploadedFileUri = uri;
+                        txtUploadStatus.setText("✅ File already selected");
+                        btnViewPdf.setEnabled(true);
+                    } else {
+                        txtUploadStatus.setText("No file selected yet");
+                        btnViewPdf.setEnabled(false);
+                    }
                 });
-
     }
 
+    private void saveUriToFirestore(String uri) {
+        db.collection("users")
+                .document(courseName)
+                .collection("lectures")
+                .document(docId)
+                .update("fileUri", uri)
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Could not save file reference", Toast.LENGTH_SHORT).show()
+                );
+    }
 }

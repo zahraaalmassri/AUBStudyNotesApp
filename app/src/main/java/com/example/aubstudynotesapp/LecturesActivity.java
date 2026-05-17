@@ -36,6 +36,11 @@ public class LecturesActivity extends AppCompatActivity {
         // ✅ Receive course name from CourseAdapter
         courseName = getIntent().getStringExtra("courseName");
 
+        TextView txtCourseName = findViewById(R.id.txtCourseName);
+        if (courseName != null) {
+            txtCourseName.setText(courseName);
+        }
+
         db = FirebaseFirestore.getInstance();
 
         // ✅ Load existing lectures from Firestore on open
