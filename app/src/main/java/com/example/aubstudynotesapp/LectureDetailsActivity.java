@@ -1,6 +1,7 @@
 package com.example.aubstudynotesapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -78,22 +79,24 @@ public class LectureDetailsActivity extends AppCompatActivity {
                         });
 
         btnUploadNotes.setOnClickListener(v ->
-
-                filePickerLauncher.launch(
-                        new String[]{"application/pdf"}));
-
+                filePickerLauncher.launch(new String[]{
+                        "application/pdf",
+                        "application/vnd.ms-powerpoint",
+                        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                }));
         btnViewPdf.setOnClickListener(v -> {
 
             if (uploadedFileUri != null) {
 
                 Intent intent =
-                        new Intent(
-                                LectureDetailsActivity.this,
-                                PdfViewerActivity.class);
+                        new Intent(Intent.ACTION_VIEW);
 
-                intent.putExtra(
-                        "fileUri",
-                        uploadedFileUri);
+                intent.setDataAndType(
+                        Uri.parse(uploadedFileUri),
+                        "application/pdf");
+
+                intent.setFlags(
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                 startActivity(intent);
 

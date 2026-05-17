@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
 
     EditText etEmail, etPassword;
-    Button btnLogin;
+    Button btnLogin, btnSignup;
     FirebaseAuth auth;
 
     @Override
@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        // ✅ FIXED - if already logged in, skip login screen
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(this, CoursesActivity.class));
             finish();
@@ -32,41 +31,58 @@ public class MainActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnSignup = findViewById(R.id.btnSignup);
 
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
-
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(MainActivity.this, "Enter valid email", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (password.length() < 6) {
-                Toast.makeText(MainActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            if (!validate(email, password)) return;
 
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            startActivity(new Intent(MainActivity.this, CoursesActivity.class));
+                            startActivity(new Intent(this, CoursesActivity.class));
                             finish();
                         } else {
-                            auth.createUserWithEmailAndPassword(email, password)
-                                    .addOnCompleteListener(registerTask -> {
-                                        if (registerTask.isSuccessful()) {
-                                            startActivity(new Intent(MainActivity.this, CoursesActivity.class));
-                                            finish();
-                                        } else {
-                                            Toast.makeText(MainActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                            Toast.makeText(this,
+                                    "Login failed. Check your credentials.",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
         });
+
+        btnSignup.setOnClickListener(v -> {
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+            if (!validate(email, password)) return;
+
+            auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            startActivity(new Intent(this, CoursesActivity.class));
+                            finish();
+                        } else {
+                            Toast.makeText(this,
+                                    "Signup failed. Try a different email.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
+    }
+
+    private boolean validate(String email, String password) {
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Enter a valid email", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (password.length() < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

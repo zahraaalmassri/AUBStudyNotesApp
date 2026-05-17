@@ -25,6 +25,13 @@
         android:backgroundTint="#7A0019"
         android:layout_marginBottom="16dp"/>
 
+    <EditText
+        android:id="@+id/searchLectureBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search lectures"
+        android:layout_marginBottom="12dp"/>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
