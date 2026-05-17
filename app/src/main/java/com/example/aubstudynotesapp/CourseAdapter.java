@@ -31,8 +31,17 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.txtCourseName.setText(course.getName());
         holder.txtSemester.setText(course.getSemester());
 
+        // ✅ Semester badge — short version e.g. "S26"
+        String semester = course.getSemester();
+        String badge = semester.length() > 3
+                ? semester.substring(0, 1) + semester.substring(semester.length() - 2)
+                : semester;
+        holder.txtSemesterBadge.setText(badge);
+
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), LecturesActivity.class);
+            Intent intent = new Intent(
+                    holder.itemView.getContext(),
+                    LecturesActivity.class);
             intent.putExtra("courseName", course.getName());
             intent.putExtra("semester", course.getSemester());
             holder.itemView.getContext().startActivity(intent);
@@ -45,12 +54,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     }
 
     public static class CourseViewHolder extends RecyclerView.ViewHolder {
-        TextView txtCourseName, txtSemester;
+        TextView txtCourseName, txtSemester, txtSemesterBadge;
 
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
             txtCourseName = itemView.findViewById(R.id.txtCourseName);
             txtSemester = itemView.findViewById(R.id.txtSemester);
+            txtSemesterBadge = itemView.findViewById(R.id.txtSemesterBadge);
         }
     }
 }
