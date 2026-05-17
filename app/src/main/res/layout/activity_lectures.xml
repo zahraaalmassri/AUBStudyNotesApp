@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F4F1">
+    android:orientation="vertical"
+    android:background="#F8F4F1"
+    android:padding="20dp">
 
-    <LinearLayout
-        android:id="@+id/lectureContainer"
+    <TextView
+        android:id="@+id/txtCourseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Course Lectures"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:textColor="#7A0019"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btnAddLecture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:text="Add Lecture"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#7A0019"
+        android:layout_marginBottom="16dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Course Lectures"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            android:textColor="#7A0019"
-            android:layout_marginBottom="10dp"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnUpload"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/lectureContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload Notes"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#7A0019"
-            android:layout_marginBottom="12dp"/>
+            android:orientation="vertical"/>
 
-        <Button
-            android:id="@+id/btnAddLecture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Lecture"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#C9A66B"
-            android:layout_marginBottom="25dp"/>
+    </ScrollView>
 
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
