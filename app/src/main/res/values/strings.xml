@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">AUBStudyNotesApp</string>
+    <string name="app_name">AUB Study Notes</string>
+    <string name="file_selected">File selected successfully!</string>
+    <string name="file_already_selected">File already selected</string>
+    <string name="no_file_selected">No file selected yet</string>
+    <string name="notes_saved">Notes saved!</string>
+    <string name="upload_success">File uploaded successfully!</string>
+    <string name="upload_fail">Could not save file reference</string>
+    <string name="notes_fail">Failed to save notes</string>
 </resources>

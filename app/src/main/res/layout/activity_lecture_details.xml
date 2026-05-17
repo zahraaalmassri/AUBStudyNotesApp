@@ -1,68 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#F8F4F1">
 
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#7A0019"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="24dp"
+        android:paddingTop="40dp">
 
-        <TextView
-            android:id="@+id/txtLectureTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lecture"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="#7A0019"/>
-
-        <Button
-            android:id="@+id/btnUploadNotes"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload Notes"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#7A0019"
-            android:layout_marginTop="20dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/txtUploadStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="14sp"
-            android:textColor="#555555"
-            android:layout_marginTop="8dp"/>
+            <TextView
+                android:id="@+id/btnBack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="←"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:layout_marginEnd="12dp"/>
 
-        <Button
-            android:id="@+id/btnViewPdf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View Lecture PDF"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#C9A66B"
-            android:layout_marginTop="12dp"/>
+            <TextView
+                android:id="@+id/txtLectureTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lecture"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="AI Lecture Summary"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#7A0019"
-            android:layout_marginTop="30dp"/>
-
-        <TextView
-            android:id="@+id/txtSummary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Upload a lecture file to generate a summary."
-            android:textSize="16sp"
-            android:textColor="#333333"
-            android:layout_marginTop="10dp"/>
+        </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+
+    <!-- Scrollable content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Upload section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_white_rounded"
+                android:padding="20dp"
+                android:elevation="4dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📎  Lecture File"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1A1A"
+                    android:layout_marginBottom="12dp"/>
+
+                <TextView
+                    android:id="@+id/txtUploadStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No file uploaded yet"
+                    android:textSize="13sp"
+                    android:textColor="#888888"
+                    android:layout_marginBottom="12dp"/>
+
+                <TextView
+                    android:id="@+id/txtFileName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="13sp"
+                    android:textColor="#7A0019"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    android:layout_marginBottom="12dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnUploadNotes"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1"
+                        android:text="Upload"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:backgroundTint="#7A0019"
+                        android:layout_marginEnd="8dp"/>
+
+                    <Button
+                        android:id="@+id/btnViewPdf"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1"
+                        android:text="View File"
+                        android:textColor="#7A0019"
+                        android:textSize="13sp"
+                        android:backgroundTint="#FFF0F0"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Quick Notes section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_white_rounded"
+                android:padding="20dp"
+                android:elevation="4dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="📝  Quick Notes"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="#1A1A1A"/>
+
+                    <Button
+                        android:id="@+id/btnSaveNotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:text="Save"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:backgroundTint="#7A0019"/>
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/etQuickNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:background="@drawable/input_rounded"
+                    android:hint="Type your notes here..."
+                    android:padding="12dp"
+                    android:textSize="14sp"
+                    android:textColor="#1A1A1A"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:scrollbars="vertical"/>
+
+                <TextView
+                    android:id="@+id/txtNotesSaved"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:textColor="#4CAF50"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+
+            <!-- AI Summary section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_white_rounded"
+                android:padding="20dp"
+                android:elevation="4dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="✨  AI Summary"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1A1A"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/txtSummary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Upload a file or add notes to generate an AI summary."
+                    android:textSize="14sp"
+                    android:textColor="#888888"
+                    android:lineSpacingExtra="4dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
