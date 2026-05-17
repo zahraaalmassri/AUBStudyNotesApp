@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.HashMap;
@@ -22,7 +23,9 @@ public class LecturesActivity extends AppCompatActivity {
     LinearLayout lectureContainer;
     FirebaseFirestore db;
     String courseName;
+    String userEmail;
     ProgressBar progressBar;
+    TextView txtCourseName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +35,20 @@ public class LecturesActivity extends AppCompatActivity {
         btnAddLecture = findViewById(R.id.btnAddLecture);
         lectureContainer = findViewById(R.id.lectureContainer);
         progressBar = findViewById(R.id.progressBar);
+        txtCourseName = findViewById(R.id.txtCourseName);
 
-        // ✅ Receive course name from CourseAdapter
+        // ✅ Get course name from intent
         courseName = getIntent().getStringExtra("courseName");
-
-        TextView txtCourseName = findViewById(R.id.txtCourseName);
         if (courseName != null) {
             txtCourseName.setText(courseName);
         }
 
+        // ✅ Get logged in user email
+        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
         db = FirebaseFirestore.getInstance();
 
-        // ✅ Load existing lectures from Firestore on open
+        // ✅ Load lectures from Firestore
         loadLectures();
 
         btnAddLecture.setOnClickListener(v -> {
@@ -69,7 +74,9 @@ public class LecturesActivity extends AppCompatActivity {
     private void loadLectures() {
         progressBar.setVisibility(android.view.View.VISIBLE);
 
-        db.collection("courses")
+        db.collection("users")
+                .document(userEmail)
+                .collection("courses")
                 .document(courseName)
                 .collection("lectures")
                 .orderBy("timestamp")
@@ -95,14 +102,13 @@ public class LecturesActivity extends AppCompatActivity {
         lecture.put("title", lectureTitle);
         lecture.put("timestamp", System.currentTimeMillis());
 
-        db.collection("courses")
+        db.collection("users")
+                .document(userEmail)
+                .collection("courses")
                 .document(courseName)
                 .collection("lectures")
                 .add(lecture)
-                .addOnSuccessListener(documentReference -> {
-                    // Reload to show updated list with correct numbering
-                    loadLectures();
-                });
+                .addOnSuccessListener(documentReference -> loadLectures());
     }
 
     private void addLectureCard(String lectureTitle, int lectureNumber, String docId) {
@@ -128,6 +134,7 @@ public class LecturesActivity extends AppCompatActivity {
             Intent intent = new Intent(LecturesActivity.this, LectureDetailsActivity.class);
             intent.putExtra("lectureTitle", lectureTitle);
             intent.putExtra("courseName", courseName);
+            intent.putExtra("userEmail", userEmail);
             intent.putExtra("docId", docId);
             startActivity(intent);
         });

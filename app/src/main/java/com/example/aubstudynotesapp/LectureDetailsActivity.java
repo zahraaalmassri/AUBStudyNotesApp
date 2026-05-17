@@ -18,7 +18,7 @@ public class LectureDetailsActivity extends AppCompatActivity {
     ActivityResultLauncher<String> filePickerLauncher;
     FirebaseFirestore db;
     String uploadedFileUri = null;
-    String courseName, lectureTitle, docId;
+    String courseName, lectureTitle, docId, userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,23 +30,24 @@ public class LectureDetailsActivity extends AppCompatActivity {
         txtLectureTitle = findViewById(R.id.txtLectureTitle);
         txtUploadStatus = findViewById(R.id.txtUploadStatus);
 
+        // ✅ Get all extras
         lectureTitle = getIntent().getStringExtra("lectureTitle");
         courseName = getIntent().getStringExtra("courseName");
         docId = getIntent().getStringExtra("docId");
+        userEmail = getIntent().getStringExtra("userEmail");
 
         txtLectureTitle.setText(lectureTitle);
 
         db = FirebaseFirestore.getInstance();
 
-        // ✅ Load saved URI from Firestore
+        // ✅ Load saved file URI from Firestore
         loadExistingFile();
 
-        // ✅ File picker — saves URI locally
         filePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
-                        // Take persistent permission so URI survives app restarts
+                        // ✅ Take persistent permission so URI survives restarts
                         getContentResolver().takePersistableUriPermission(
                                 uri,
                                 Intent.FLAG_GRANT_READ_URI_PERMISSION
@@ -72,9 +73,11 @@ public class LectureDetailsActivity extends AppCompatActivity {
     }
 
     private void loadExistingFile() {
-        if (courseName == null || docId == null) return;
+        if (userEmail == null || courseName == null || docId == null) return;
 
         db.collection("users")
+                .document(userEmail)
+                .collection("courses")
                 .document(courseName)
                 .collection("lectures")
                 .document(docId)
@@ -94,6 +97,8 @@ public class LectureDetailsActivity extends AppCompatActivity {
 
     private void saveUriToFirestore(String uri) {
         db.collection("users")
+                .document(userEmail)
+                .collection("courses")
                 .document(courseName)
                 .collection("lectures")
                 .document(docId)
