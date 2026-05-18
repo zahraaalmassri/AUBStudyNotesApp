@@ -50,7 +50,6 @@
 
                 </LinearLayout>
 
-                <!-- Logout icon button -->
                 <TextView
                     android:id="@+id/btnLogout"
                     android:layout_width="36dp"
@@ -66,7 +65,7 @@
 
         </LinearLayout>
 
-        <!-- Search bar -->
+        <!-- Search -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,13 +77,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/input_rounded"
-                android:hint="🔍  Search courses..."
+                android:hint="🔍 Search courses..."
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:textSize="14sp"
-                android:inputType="text"/>
+                android:textSize="14sp"/>
 
         </LinearLayout>
+
+        <!-- Checklist button -->
+        <Button
+            android:id="@+id/btnChecklist"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
+            android:text="Study Checklist"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#C9A66B"/>
 
         <!-- Progress -->
         <ProgressBar
@@ -94,7 +105,7 @@
             android:layout_gravity="center"
             android:visibility="gone"/>
 
-        <!-- Courses list -->
+        <!-- Courses -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerCourses"
             android:layout_width="match_parent"
@@ -107,7 +118,7 @@
 
     </LinearLayout>
 
-    <!-- FAB for adding course -->
+    <!-- FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddCourse"
         android:layout_width="wrap_content"
